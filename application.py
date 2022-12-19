@@ -31,11 +31,11 @@ def get_top_10_recommendations(model, user_id):
     return top_10_movie_ids
 
 
-def get_names(ids):
+def get_names_ratings(ids):
     names = []
     for id in ids:
-        names.append(
-            anime_df.loc[anime_df['anime_id'] == id, 'name'].values[0])
+        tuple = (anime_df.loc[anime_df['anime_id'] == id, 'name'].values[0],anime_df.loc[anime_df['anime_id'] == id, 'members'].values[0] ,anime_df.loc[anime_df['anime_id'] == id, 'rating'].values[0])
+        names.append(tuple)
     return names
 
 
@@ -47,5 +47,5 @@ user_id = int(input("Entrez votre ID d'utilisateur : "))
 top_10_movie_ids = get_top_10_recommendations(algo, user_id)
 
 print(f"Voici la liste des films recommendé pour l'utilisateur {user_id}")
-for nom in get_names(top_10_movie_ids):
-    print(f"- {nom}")
+for tuple in get_names_ratings(top_10_movie_ids):
+    print(f"- {tuple[0]}\n       Noté en moyenne {tuple[2]}/10 par {tuple[1]} personnes")
